@@ -7,8 +7,9 @@
 //
 
 #import "ViewController.h"
+#import <CardIO/CardIO.h>
 
-@interface ViewController ()
+@interface ViewController () <CardIOPaymentViewControllerDelegate>
 
 @end
 
@@ -19,9 +20,24 @@
     // Do any additional setup after loading the view, typically from a nib.
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [self presentViewController:[[CardIOPaymentViewController alloc] initWithPaymentDelegate:self]
+                       animated:YES
+                     completion:nil];
+
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)userDidCancelPaymentViewController:(CardIOPaymentViewController *)paymentViewController {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)userDidProvideCreditCardInfo:(CardIOCreditCardInfo *)cardInfo inPaymentViewController:(CardIOPaymentViewController *)paymentViewController {
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 @end
